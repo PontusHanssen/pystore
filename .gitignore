@@ -1,3 +1,4 @@
 pystore.db
+__pycache__
 .venv/
 
