@@ -40,3 +40,13 @@ create table stock(
     foreign key(product) references products(id),
     foreign key(location) references locations(id)
 );
+
+drop table if exists producttransactions;
+create table producttransactions(
+    t_id integer,
+    p_id integer,
+    amount integer,
+    foreign key(t_id) references transactions(id),
+    foreign key(p_id) references products(id)
+);
+

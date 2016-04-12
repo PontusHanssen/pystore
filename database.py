@@ -5,10 +5,15 @@ class Database:
     db = None
 
 
-    def __init(self, db):
+    def __init__(self, db):
         self.db = sqlite3.connect(db)
-        self.cur = self.cur
-        self.db.row_factory = sqlite3.Row
+        self.cur = self.db.cursor()
+        def dict_factory(cursor, row):
+            d = {}
+            for idx, col in enumerate(cursor.description):
+                d[col[0]] = row[idx]
+            return d
+        self.db.row_factory = dict_factory
 
 
     def add_product(self, p_name, p_buy, p_sell, p_active):
@@ -158,5 +163,18 @@ class Database:
     def get_stock(self, s_filter):
         self.cur.execute('select amount from stock where product=? and location=?',
                 s_filter['p_id'], s_filter['l_id'])
+        return self.cur.fetchall()
+
+
+    def add_producttransaction(self, t_id, p_id, amount):
+        self.cur.execute('insert into producttransactions (t_id,p_id,amount)' +\
+                ' values(?,?,?)', t_id, p_id, amount)
+        self.db.commit()
+
+
+    def get_producttransactions(self, t_id):
+        self.cur.execute(
+                'select p_id,amount from producttransactions where t_id=?',
+                t_id)
         return self.cur.fetchall()
 

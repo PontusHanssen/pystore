@@ -2,18 +2,26 @@ import json
 
 class Api:
 
-    self.database = None
+    database = None
 
     def __init__(self, database):
         self.database = database
 
 
     def get_products(self, f={}):
-        products = database.get_products(f)
-        return json.loads({'products': products})
+        products = self.database.get_products(f)
+        return json.dumps({'products': products})
 
 
     def add_product(self, product):
+        pass
+
+
+    def sell_products(self, products, from_acc, to_acc):
+        pass
+
+
+    def buy_products(self, products, from_acc, to_acc):
         pass
 
 
